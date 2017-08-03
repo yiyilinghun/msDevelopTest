@@ -4,7 +4,19 @@
 #if defined(_LIN)
 
 #elif defined(_WIN)
-
+#pragma warning(push)
+#pragma warning(disable:4996)
+#pragma warning(disable:4512)
+#pragma warning(disable:4244)
+#pragma warning(disable:4267)
+#pragma warning(disable:4307)
+#pragma warning(disable:4125)
+#pragma warning(disable:4127)
+//#include "EnumDef.pb.h"
+//#include "Server.pb.h"
+//typedef google::protobuf::Message   BaseProto;
+//typedef google::protobuf::Message*  LPBASEPROTO;
+#pragma warning(pop)
 #endif // ƽ̨
 
 

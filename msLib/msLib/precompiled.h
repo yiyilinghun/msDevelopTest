@@ -1,4 +1,13 @@
 #pragma once
+
+// 跨平台
+#if defined(_LIN)
+
+#elif defined(_WIN)
+
+#endif // 平台
+
+
 //#pragma warning(disable:4512)
 //
 //#pragma warning(push)
@@ -16,3 +25,4 @@
 //
 //#define TEMP_DEF_TERMINAL_CUSTOM_OBJECT_TYPE
 //#include "MsBase.h"
+

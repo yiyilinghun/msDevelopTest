@@ -2,3 +2,10 @@
 bin
 obj
 
+xml_sync/Debug/
+xml_sync/ipch/
+xml_sync/xml_sync/Debug/
+*.sdf
+*.suo
+*.idb
+*.pdb

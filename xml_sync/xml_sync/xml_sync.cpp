@@ -1,53 +1,76 @@
 #include <iostream>
 #include <map>
+#include <vector>
+#include "md5.h"
 #include "tinyxml.h"
 
 typedef std::string mstr;
 typedef int Int32;
 
-std::map<mstr, mstr> g_Map;
+#define ONCE_BLACK " "
+
+
+struct XmlRecordInfo
+{
+    std::vector<mstr> m_XmlVector;
+    std::map<mstr, mstr> m_XmlMap;
+};
+
 
 mstr CreateHierarchyBlank(Int32 xHierarchy)
 {
     mstr xTemp = "";
     for (Int32 i = 0; i < xHierarchy; i++)
     {
-        xTemp += "    ";
+        xTemp += ONCE_BLACK;
     }
     return xTemp;
 }
 
-void ReadNodeAttr(TiXmlElement* xTiXmlElement, Int32 xHierarchy)
+void ReadNodeAttr(TiXmlElement* xTiXmlElement, mstr xFullPathKV, Int32 xHierarchy)
 {
     if (xTiXmlElement)
     {
         mstr xHierarchyBlank = CreateHierarchyBlank(xHierarchy);
         TiXmlAttribute* xTiXmlAttribute = xTiXmlElement->FirstAttribute();
-        printf("%s", xHierarchyBlank.c_str());
         while (xTiXmlAttribute)
         {
-            printf(" [%s]", xTiXmlAttribute->Name());
+            //printf("%s[%s=%s]", ONCE_BLACK, xTiXmlAttribute->Name(), xTiXmlAttribute->Value());
             xTiXmlAttribute = xTiXmlAttribute->Next();
         }
-        printf("\n");
+        //printf("\n");
     }
 }
 
-void ReadNode(TiXmlElement* xTiXmlElement, Int32 xHierarchy)
+void ReadNode(XmlRecordInfo& xXmlVector, TiXmlElement* xTiXmlElement, mstr xFullPathKV, Int32 xHierarchy)
 {
     mstr xHierarchyBlank = CreateHierarchyBlank(xHierarchy);
     if (xTiXmlElement)
     {
-        printf("%s%s", xHierarchyBlank.c_str(), xTiXmlElement->Value());
-        ReadNodeAttr(xTiXmlElement, xHierarchy);
+        xXmlVector.m_XmlVector.push_back(xTiXmlElement->Value());
+        //xXmlVector.m_XmlMap[xTiXmlElement->Value()]++;
+
+        mstr xTempNodeFullPathKV = xFullPathKV;
+        if (xHierarchy != 0) { xTempNodeFullPathKV += "->"; }
+        xTempNodeFullPathKV += xTiXmlElement->Value();
+        ReadNodeAttr(xTiXmlElement, xTempNodeFullPathKV, xHierarchy);
+        //printf("%s%s(%s)\n", xHierarchyBlank.c_str(), xTiXmlElement->Value(), xTempNodeFullPathKV.c_str());
+        //printf("%s\n", xTempNodeFullPathKV.c_str());
+        printf("%s %s\n", GETSTRMD5(xTempNodeFullPathKV.c_str()).c_str(), xTempNodeFullPathKV.c_str());
 
         TiXmlElement* xTiSubXmlElement = xTiXmlElement->FirstChildElement();
         while (xTiSubXmlElement)
         {
-            ReadNode(xTiSubXmlElement, xHierarchy + 1);
+            //mstr xTempElemFullPathKV = xTempNodeFullPathKV;
+            //xTempElemFullPathKV += "->"; xTempElemFullPathKV += xTiSubXmlElement->Value();
+            //ReadNodeAttr(xTiSubXmlElement, xTempElemFullPathKV, xHierarchy);
+            //printf("%s%s(%s)\n", xHierarchyBlank.c_str(), xTiSubXmlElement->Value(), xTempElemFullPathKV.c_str());
+            //xTempElemFullPathKV += "->"; xTempElemFullPathKV += xTiSubXmlElement->Value();
+            ReadNode(xXmlVector, xTiSubXmlElement, xTempNodeFullPathKV, xHierarchy + 1);
             xTiSubXmlElement = xTiSubXmlElement->NextSiblingElement();
         }
     }
+
     //if (xTiXmlNode)
     //{
     //    do 
@@ -67,40 +90,48 @@ void ReadNode(TiXmlElement* xTiXmlElement, Int32 xHierarchy)
 
 int main()
 {
-    TiXmlDocument xDocument;
-    if (!xDocument.LoadFile(R"(I:\msgit\ms_develop_test\xml_sync\xml_sync\test.xml)"))
+    XmlRecordInfo XmlInfo1;
+    XmlRecordInfo XmlInfo2;
     {
-        printf("打开xml失败");
-        return 1;
-    }
-
-    TiXmlElement* xTiXmlElement = xDocument.FirstChildElement();
-    if (xTiXmlElement)
-    {
-        do
+        TiXmlDocument xDocument;
+        if (!xDocument.LoadFile("./test.xml"))
         {
-            ReadNode(xTiXmlElement, 0);
-            xTiXmlElement = xTiXmlElement->NextSiblingElement();
-        } while (xTiXmlElement);
+            printf("打开xml失败");
+            return 1;
+        }
+        TiXmlElement* xTiXmlElement = xDocument.FirstChildElement();
+        if (xTiXmlElement)
+        {
+            do
+            {
+                mstr xFullPathKV;
+                ReadNode(XmlInfo1, xTiXmlElement, xFullPathKV, 0);
+                xTiXmlElement = xTiXmlElement->NextSiblingElement();
+            } while (xTiXmlElement);
+        }
     }
 
-    //MsXmlReader xMsXmlReader;
-    //if (!xMsXmlReader.Load(R"(I:\msgit\ms_develop_test\xml_sync\xml_sync\test.xml)"))
-    //{
-    //    printf("加载xml失败!\n");
-    //}
+    {
+        TiXmlDocument xDocument;
+        if (!xDocument.LoadFile("./test2.xml"))
+        {
+            printf("打开xml失败");
+            return 1;
+        }
+        TiXmlElement* xTiXmlElement = xDocument.FirstChildElement();
+        if (xTiXmlElement)
+        {
+            do
+            {
+                mstr xFullPathKV;
+                ReadNode(XmlInfo2, xTiXmlElement, xFullPathKV, 0);
+                xTiXmlElement = xTiXmlElement->NextSiblingElement();
+            } while (xTiXmlElement);
+        }
+    }
 
-    //Int32 iPosParent, iPos, iPosChild;
-    //if (xMsXmlReader[NULL])
-    //{
-    //    while (xMsXmlReader.FindNextElem())
-    //    {
-    //        xMsXmlReader.BackupPos(iPosParent, iPos, iPosChild);
-    //        xMsXmlReader._SetPos(iPosParent, iPos, iPosChild);
-    //    }
-    //    //xMsXmlReader.firstnode
-    //    printf("加载xml失败!\n");
-    //}
+    //printf(GETSTRMD5(XmlVector1[0].c_str()).c_str());
+
 
     system("Pause");
     return 0;

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="gb2312" ?>
+<Root version="1">
+    <DetailData DetailID="1100" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailData DetailID="1200" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailData DetailID="1301" TaskType="200301" TaskValue="" RewardID="" />
+    <DetailData DetailID="1500" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailData DetailID="1600" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailData DetailID="1700" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailData DetailID="1800" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailData DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
+</Root>

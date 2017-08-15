@@ -17,8 +17,11 @@
                 <DetailData DetailID="11" TaskType="1300" TaskValue="" RewardID="" Test="TotalRechargea00"/>
                 <DetailData DetailID="12" TaskType="1300" TaskValue="" RewardID="" />
                 <DetailData DetailID="19" TaskType="1300" TaskValue="" RewardID="" />
+                <DetailData DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
             </SumActivityData>
+            <DetailData DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
         </SumActivityData>
+        <DetailData DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
     </SumActivityData>
 
     <DetailData DetailID="1100" TaskType="200300" TaskValue="" RewardID="" />
@@ -29,5 +32,13 @@
     <DetailData DetailID="1600" TaskType="200300" TaskValue="" RewardID="" />
     <DetailData DetailID="1700" TaskType="200300" TaskValue="" RewardID="" />
     <DetailData DetailID="1800" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailData DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailData DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailData DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailData DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailData DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailData DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailData DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailData DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
     <DetailData DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
 </Root>

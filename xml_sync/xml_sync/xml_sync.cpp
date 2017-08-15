@@ -7,7 +7,8 @@
 typedef std::string mstr;
 typedef int Int32;
 
-#define ONCE_BLACK "    "
+//#define ONCE_BLACK "    "
+#define ONCE_BLACK ""
 
 
 struct XmlRecordInfo
@@ -99,30 +100,30 @@ int main()
     XmlRecordInfo XmlInfo2;
 
 
-    //{
-    //    TiXmlDocument xDocument;
-    //    if (!xDocument.LoadFile("./1.xml"))
-    //    {
-    //        printf("打开xml失败");
-    //        return 1;
-    //    }
-    //    TiXmlElement* xTiXmlElement = xDocument.FirstChildElement();
-    //    if (xTiXmlElement)
-    //    {
-    //        do
-    //        {
-    //            mstr xFullPathKV;
-    //            ReadNode(XmlInfo1, xTiXmlElement, xFullPathKV, 0);
-    //            xTiXmlElement = xTiXmlElement->NextSiblingElement();
-    //        } while (xTiXmlElement);
-    //    }
-    //}
-
-    //printf("----------------------\n");
-
     {
         TiXmlDocument xDocument;
-        if (!xDocument.LoadFile("./2.xml"))
+        if (!xDocument.LoadFile("./test1.xml"))
+        {
+            printf("打开xml失败");
+            return 1;
+        }
+        TiXmlElement* xTiXmlElement = xDocument.FirstChildElement();
+        if (xTiXmlElement)
+        {
+            do
+            {
+                mstr xFullPathKV;
+                ReadNode(XmlInfo1, xTiXmlElement, xFullPathKV, 0);
+                xTiXmlElement = xTiXmlElement->NextSiblingElement();
+            } while (xTiXmlElement);
+        }
+    }
+
+    //printf("----------------------\n");
+    system("cls");
+    {
+        TiXmlDocument xDocument;
+        if (!xDocument.LoadFile("./test2.xml"))
         {
             printf("打开xml失败");
             return 1;
@@ -142,7 +143,7 @@ int main()
     //printf(GETSTRMD5(XmlVector1[0].c_str()).c_str());
 
 
-    //system("Pause");
+    system("Pause");
     return 0;
 }
 

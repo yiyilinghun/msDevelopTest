@@ -7,7 +7,7 @@
 typedef std::string mstr;
 typedef int Int32;
 
-#define ONCE_BLACK " "
+#define ONCE_BLACK "    "
 
 
 struct XmlRecordInfo
@@ -20,12 +20,10 @@ struct XmlRecordInfo
 mstr CreateHierarchyBlank(Int32 xHierarchy)
 {
     mstr xTemp = "";
-    for (Int32 i = 0; i < xHierarchy; i++)
-    {
-        xTemp += ONCE_BLACK;
-    }
+    for (Int32 i = 0; i < xHierarchy; i++) { xTemp += ONCE_BLACK; }
     return xTemp;
 }
+
 
 void ReadNodeAttr(TiXmlElement* xTiXmlElement, mstr xFullPathKV, Int32 xHierarchy)
 {
@@ -35,7 +33,13 @@ void ReadNodeAttr(TiXmlElement* xTiXmlElement, mstr xFullPathKV, Int32 xHierarch
         TiXmlAttribute* xTiXmlAttribute = xTiXmlElement->FirstAttribute();
         while (xTiXmlAttribute)
         {
-            //printf("%s[%s=%s]", ONCE_BLACK, xTiXmlAttribute->Name(), xTiXmlAttribute->Value());
+            mstr xTempNodeFullPathKV = xFullPathKV;
+            xTempNodeFullPathKV += "->";
+            xTempNodeFullPathKV += xTiXmlAttribute->Name();
+            xTempNodeFullPathKV += ",";
+            xTempNodeFullPathKV += xTiXmlAttribute->Value();
+
+            printf("%s %s[%s=%s]:%s\n", CreateHierarchyBlank(xHierarchy).c_str(), xFullPathKV.c_str(), xTiXmlAttribute->Name(), xTiXmlAttribute->Value(), GETSTRMD5(xTempNodeFullPathKV).c_str());
             xTiXmlAttribute = xTiXmlAttribute->Next();
         }
         //printf("\n");
@@ -53,10 +57,11 @@ void ReadNode(XmlRecordInfo& xXmlVector, TiXmlElement* xTiXmlElement, mstr xFull
         mstr xTempNodeFullPathKV = xFullPathKV;
         if (xHierarchy != 0) { xTempNodeFullPathKV += "->"; }
         xTempNodeFullPathKV += xTiXmlElement->Value();
-        ReadNodeAttr(xTiXmlElement, xTempNodeFullPathKV, xHierarchy);
+
+        ReadNodeAttr(xTiXmlElement, xTempNodeFullPathKV, xHierarchy + 1);
         //printf("%s%s(%s)\n", xHierarchyBlank.c_str(), xTiXmlElement->Value(), xTempNodeFullPathKV.c_str());
         //printf("%s\n", xTempNodeFullPathKV.c_str());
-        printf("%s %s\n", GETSTRMD5(xTempNodeFullPathKV.c_str()).c_str(), xTempNodeFullPathKV.c_str());
+
 
         TiXmlElement* xTiSubXmlElement = xTiXmlElement->FirstChildElement();
         while (xTiSubXmlElement)
@@ -92,28 +97,32 @@ int main()
 {
     XmlRecordInfo XmlInfo1;
     XmlRecordInfo XmlInfo2;
-    {
-        TiXmlDocument xDocument;
-        if (!xDocument.LoadFile("./test.xml"))
-        {
-            printf("打开xml失败");
-            return 1;
-        }
-        TiXmlElement* xTiXmlElement = xDocument.FirstChildElement();
-        if (xTiXmlElement)
-        {
-            do
-            {
-                mstr xFullPathKV;
-                ReadNode(XmlInfo1, xTiXmlElement, xFullPathKV, 0);
-                xTiXmlElement = xTiXmlElement->NextSiblingElement();
-            } while (xTiXmlElement);
-        }
-    }
+
+
+    //{
+    //    TiXmlDocument xDocument;
+    //    if (!xDocument.LoadFile("./1.xml"))
+    //    {
+    //        printf("打开xml失败");
+    //        return 1;
+    //    }
+    //    TiXmlElement* xTiXmlElement = xDocument.FirstChildElement();
+    //    if (xTiXmlElement)
+    //    {
+    //        do
+    //        {
+    //            mstr xFullPathKV;
+    //            ReadNode(XmlInfo1, xTiXmlElement, xFullPathKV, 0);
+    //            xTiXmlElement = xTiXmlElement->NextSiblingElement();
+    //        } while (xTiXmlElement);
+    //    }
+    //}
+
+    //printf("----------------------\n");
 
     {
         TiXmlDocument xDocument;
-        if (!xDocument.LoadFile("./test2.xml"))
+        if (!xDocument.LoadFile("./2.xml"))
         {
             printf("打开xml失败");
             return 1;
@@ -133,7 +142,7 @@ int main()
     //printf(GETSTRMD5(XmlVector1[0].c_str()).c_str());
 
 
-    system("Pause");
+    //system("Pause");
     return 0;
 }
 

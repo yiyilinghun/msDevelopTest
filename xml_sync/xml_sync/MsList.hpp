@@ -13,6 +13,7 @@ typedef int         Boolean;
 typedef char        Char;
 typedef char*       LPSTR;
 
+#include <stdarg.h>
 #include <list>
 
 template<typename TValue>
@@ -198,7 +199,25 @@ DINLINE static void StringSplit(LPSTR lpCSrc, Char xSeparator, MsList<mstr>& xPa
     }
 }
 
+DINLINE static void Format(mstr& xOutTar, LPSTR xFormat, ...)
+{
+    Char szBaseFormat[10240];
+    va_list ap;
+    va_start(ap, xFormat);
+    vsprintf(szBaseFormat, xFormat, ap);
+    va_end(ap);
+    xOutTar = szBaseFormat;
+}
 
+DINLINE static mstr Format(LPSTR xFormat, ...)
+{
+    Char szBaseFormat[10240];
+    va_list ap;
+    va_start(ap, xFormat);
+    vsprintf(szBaseFormat, xFormat, ap);
+    va_end(ap);
+    return szBaseFormat;
+}
 
 
 //template<typename TValue>

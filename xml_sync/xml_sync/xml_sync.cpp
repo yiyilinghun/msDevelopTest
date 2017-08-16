@@ -52,7 +52,7 @@ void ReadNodeAttr(XmlRecordInfo& xXmlVector, TiXmlElement* xTiXmlElement, mstr x
         TiXmlAttribute* xTiXmlAttribute = xTiXmlElement->FirstAttribute();
         while (xTiXmlAttribute)
         {
-            mstr xTempNodeFullPathKV = xFullPathKV;
+            mstr xTempNodeFullPathKV = Format("%03d:%s", xHierarchy, xFullPathKV.c_str());
             xTempNodeFullPathKV += ">";
             xTempNodeFullPathKV += xTiXmlAttribute->Name();
             xXmlVector.m_List_LineName.Add(xTempNodeFullPathKV);

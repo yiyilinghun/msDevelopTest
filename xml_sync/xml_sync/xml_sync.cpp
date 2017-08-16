@@ -6,27 +6,6 @@
 #include "tinyxml.h"
 #include "MsList.hpp"
 
-#define _Max(a,b)    (((a) > (b)) ? (a) : (b))
-
-//#define ONCE_BLACK "    "
-#define ONCE_BLACK ""
-//
-//struct TextRecordInfo
-//{
-//    TextRecordInfo() : m_Text("") {}
-//    mstr m_Md5;
-//    mstr m_Text;
-//};
-//
-//struct XmlRecordInfo
-//{
-//    FILE* m_OutFileName;
-//    MsList<mstr> m_List_LineText;
-//    MsList<mstr> m_List_LineMd5;
-//    std::map<mstr, MsList<Int32>> m_Dict_Md5_Text;
-//};
-//
-
 enum MergeType
 {
     MT_ADD, // 增加
@@ -34,7 +13,6 @@ enum MergeType
     MT_CHG, // 修改
     MT_MOV, // 移动
 };
-
 
 struct MergeInfo
 {
@@ -48,30 +26,26 @@ struct MergeInfo
     } MergeData;
 };
 
-
 struct XmlRecordInfo
 {
     FILE* m_OutFileName;
     MsList<mstr> m_List_LineText;
     MsList<mstr> m_List_LineName;
     MsList<mstr> m_List_LineValue;
-    //MsList<mstr> m_List_LineMd5;
-    //std::map<mstr, MsList<Int32>> m_Dict_Md5_Text;
 };
 
-mstr CreateHierarchyBlank(Int32 xHierarchy)
-{
-    mstr xTemp = "";
-    for (Int32 i = 0; i < xHierarchy; i++) { xTemp += ONCE_BLACK; }
-    return xTemp;
-}
-
+//mstr CreateHierarchyBlank(Int32 xHierarchy)
+//{
+//    mstr xTemp = "";
+//    for (Int32 i = 0; i < xHierarchy; i++) { xTemp += ONCE_BLACK; }
+//    return xTemp;
+//}
 
 void ReadNodeAttr(XmlRecordInfo& xXmlVector, TiXmlElement* xTiXmlElement, mstr xFullPathKV, Int32 xHierarchy)
 {
     if (xTiXmlElement)
     {
-        mstr xHierarchyBlank = CreateHierarchyBlank(xHierarchy);
+        //mstr xHierarchyBlank = CreateHierarchyBlank(xHierarchy);
         TiXmlAttribute* xTiXmlAttribute = xTiXmlElement->FirstAttribute();
         while (xTiXmlAttribute)
         {
@@ -82,74 +56,30 @@ void ReadNodeAttr(XmlRecordInfo& xXmlVector, TiXmlElement* xTiXmlElement, mstr x
             xTempNodeFullPathKV += "=";
             xTempNodeFullPathKV += xTiXmlAttribute->Value();
             xXmlVector.m_List_LineValue.Add(xTiXmlAttribute->Value());
-
-            //mstr xMd5 = GETSTRMD5(xTempNodeFullPathKV);
-            //while ((Int32)xXmlVector.m_List_LineText.GetCount() < xLineNumber)
-            //{
-                //Char xBuff[4096];
-                //sprintf(xBuff, "%s[%s=%s]", xFullPathKV.c_str(), xTiXmlAttribute->Name(), xTiXmlAttribute->Value());
-
             xXmlVector.m_List_LineText.Add(xTempNodeFullPathKV);
-
-            //xXmlVector.m_List_LineMd5.Add(xMd5);
-            //xXmlVector.m_Dict_Md5_Text[xMd5].Add(xLineNumber);
-            //}
-            //xLineNumber++;
-            //TextRecordInfo* xTextRecordInfo = xXmlVector.m_List_LineText[xLineNumber - 1];
-            //xXmlVector.m_Dict_Md5_Text[xMd5].Add(xTextRecordInfo);
-            //fprintf(xXmlVector.m_OutFileName, "%08x:%s%s[%s=%s]:%s\n", xLineNumber++, GETSTRMD5(xTempNodeFullPathKV).c_str(), CreateHierarchyBlank(xHierarchy).c_str(), xFullPathKV.c_str(), xTiXmlAttribute->Name(), xTiXmlAttribute->Value());
-
             xTiXmlAttribute = xTiXmlAttribute->Next();
         }
-        //printf("\n");
     }
 }
 
 void ReadNode(XmlRecordInfo& xXmlVector, TiXmlElement* xTiXmlElement, mstr xFullPathKV, Int32 xHierarchy)
 {
-    mstr xHierarchyBlank = CreateHierarchyBlank(xHierarchy);
+    //mstr xHierarchyBlank = CreateHierarchyBlank(xHierarchy);
     if (xTiXmlElement)
     {
-        //xXmlVector.m_XmlVector.push_back(xTiXmlElement->Value());
-        //xXmlVector.m_XmlMap[xTiXmlElement->Value()]++;
-
         mstr xTempNodeFullPathKV = xFullPathKV;
         if (xHierarchy != 0) { xTempNodeFullPathKV += "->"; }
         xTempNodeFullPathKV += xTiXmlElement->Value();
 
         ReadNodeAttr(xXmlVector, xTiXmlElement, xTempNodeFullPathKV, xHierarchy + 1);
-        //printf("%s%s(%s)\n", xHierarchyBlank.c_str(), xTiXmlElement->Value(), xTempNodeFullPathKV.c_str());
-        //printf("%s\n", xTempNodeFullPathKV.c_str());
-
 
         TiXmlElement* xTiSubXmlElement = xTiXmlElement->FirstChildElement();
         while (xTiSubXmlElement)
         {
-            //mstr xTempElemFullPathKV = xTempNodeFullPathKV;
-            //xTempElemFullPathKV += "->"; xTempElemFullPathKV += xTiSubXmlElement->Value();
-            //ReadNodeAttr(xTiSubXmlElement, xTempElemFullPathKV, xHierarchy);
-            //printf("%s%s(%s)\n", xHierarchyBlank.c_str(), xTiSubXmlElement->Value(), xTempElemFullPathKV.c_str());
-            //xTempElemFullPathKV += "->"; xTempElemFullPathKV += xTiSubXmlElement->Value();
             ReadNode(xXmlVector, xTiSubXmlElement, xTempNodeFullPathKV, xHierarchy + 1);
             xTiSubXmlElement = xTiSubXmlElement->NextSiblingElement();
         }
     }
-
-    //if (xTiXmlNode)
-    //{
-    //    do 
-    //    {
-    //    } while (xTiXmlNode);
-    //    TiXmlNode* xSubTiXmlNode = xTiXmlNode->FirstChild();
-    //    if (xSubTiXmlNode)
-    //    {
-    //        do
-    //        {
-    //            printf("%s\n", xSubTiXmlNode->Value());
-    //            xSubTiXmlNode = xSubTiXmlNode->NextSibling();
-    //        } while (xSubTiXmlNode);
-    //    }
-    //}
 }
 
 int main()
@@ -200,8 +130,6 @@ int main()
     }
 
     //printf(GETSTRMD5(XmlVector1[0].c_str()).c_str());
-
-
     //auto x1 = XmlInfoSrc.m_Dict_Md5_Text["0347f7e68541d577571b2f57b794e4f2"];
     //auto x2 = XmlInfoTar.m_Dict_Md5_Text["0347f7e68541d577571b2f57b794e4f2"];
 
@@ -236,7 +164,6 @@ int main()
             }
         }
     }
-
 
 
     FILE* xFile = fopen("d:\\up.txt", "w+");

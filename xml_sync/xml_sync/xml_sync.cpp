@@ -27,10 +27,34 @@
 //};
 //
 
+enum MergeType
+{
+    MT_ADD, // 增加
+    MT_DEL, // 删除
+    MT_CHG, // 修改
+    MT_MOV, // 移动
+};
+
+
+struct MergeInfo
+{
+    MergeType m_Type;
+    struct
+    {
+        mstr m_AddValue;
+        mstr m_DelValue;
+        std::pair<Int32, mstr> m_SrcLineNewValue;
+        Int32 m_SrcLine;
+    } MergeData;
+};
+
+
 struct XmlRecordInfo
 {
     FILE* m_OutFileName;
     MsList<mstr> m_List_LineText;
+    MsList<mstr> m_List_LineName;
+    MsList<mstr> m_List_LineValue;
     //MsList<mstr> m_List_LineMd5;
     //std::map<mstr, MsList<Int32>> m_Dict_Md5_Text;
 };
@@ -54,15 +78,19 @@ void ReadNodeAttr(XmlRecordInfo& xXmlVector, TiXmlElement* xTiXmlElement, mstr x
             mstr xTempNodeFullPathKV = xFullPathKV;
             xTempNodeFullPathKV += "->";
             xTempNodeFullPathKV += xTiXmlAttribute->Name();
-            xTempNodeFullPathKV += ",";
+            xXmlVector.m_List_LineName.Add(xTempNodeFullPathKV);
+            xTempNodeFullPathKV += "=";
             xTempNodeFullPathKV += xTiXmlAttribute->Value();
+            xXmlVector.m_List_LineValue.Add(xTiXmlAttribute->Value());
 
-            mstr xMd5 = GETSTRMD5(xTempNodeFullPathKV);
+            //mstr xMd5 = GETSTRMD5(xTempNodeFullPathKV);
             //while ((Int32)xXmlVector.m_List_LineText.GetCount() < xLineNumber)
             //{
                 //Char xBuff[4096];
                 //sprintf(xBuff, "%s[%s=%s]", xFullPathKV.c_str(), xTiXmlAttribute->Name(), xTiXmlAttribute->Value());
+
             xXmlVector.m_List_LineText.Add(xTempNodeFullPathKV);
+
             //xXmlVector.m_List_LineMd5.Add(xMd5);
             //xXmlVector.m_Dict_Md5_Text[xMd5].Add(xLineNumber);
             //}
@@ -70,6 +98,7 @@ void ReadNodeAttr(XmlRecordInfo& xXmlVector, TiXmlElement* xTiXmlElement, mstr x
             //TextRecordInfo* xTextRecordInfo = xXmlVector.m_List_LineText[xLineNumber - 1];
             //xXmlVector.m_Dict_Md5_Text[xMd5].Add(xTextRecordInfo);
             //fprintf(xXmlVector.m_OutFileName, "%08x:%s%s[%s=%s]:%s\n", xLineNumber++, GETSTRMD5(xTempNodeFullPathKV).c_str(), CreateHierarchyBlank(xHierarchy).c_str(), xFullPathKV.c_str(), xTiXmlAttribute->Name(), xTiXmlAttribute->Value());
+
             xTiXmlAttribute = xTiXmlAttribute->Next();
         }
         //printf("\n");
@@ -125,8 +154,8 @@ void ReadNode(XmlRecordInfo& xXmlVector, TiXmlElement* xTiXmlElement, mstr xFull
 
 int main()
 {
-    XmlRecordInfo XmlInfo1;
-    XmlInfo1.m_OutFileName = fopen("./1.out.txt", "w+");
+    XmlRecordInfo XmlInfoSrc;
+    XmlInfoSrc.m_OutFileName = fopen("./1.out.txt", "w+");
     {
         TiXmlDocument xDocument;
         if (!xDocument.LoadFile("./test1.xml"))
@@ -140,7 +169,7 @@ int main()
             do
             {
                 mstr xFullPathKV;
-                ReadNode(XmlInfo1, xTiXmlElement, xFullPathKV, 0);
+                ReadNode(XmlInfoSrc, xTiXmlElement, xFullPathKV, 0);
                 xTiXmlElement = xTiXmlElement->NextSiblingElement();
             } while (xTiXmlElement);
         }
@@ -149,8 +178,8 @@ int main()
     //printf("----------------------\n");
     //system("cls");
 
-    XmlRecordInfo XmlInfo2;
-    XmlInfo2.m_OutFileName = fopen("./2.out.txt", "w+");
+    XmlRecordInfo XmlInfoTar;
+    XmlInfoTar.m_OutFileName = fopen("./2.out.txt", "w+");
     {
         TiXmlDocument xDocument;
         if (!xDocument.LoadFile("./test2.xml"))
@@ -164,7 +193,7 @@ int main()
             do
             {
                 mstr xFullPathKV;
-                ReadNode(XmlInfo2, xTiXmlElement, xFullPathKV, 0);
+                ReadNode(XmlInfoTar, xTiXmlElement, xFullPathKV, 0);
                 xTiXmlElement = xTiXmlElement->NextSiblingElement();
             } while (xTiXmlElement);
         }
@@ -173,123 +202,104 @@ int main()
     //printf(GETSTRMD5(XmlVector1[0].c_str()).c_str());
 
 
-    //auto x1 = XmlInfo1.m_Dict_Md5_Text["0347f7e68541d577571b2f57b794e4f2"];
-    //auto x2 = XmlInfo2.m_Dict_Md5_Text["0347f7e68541d577571b2f57b794e4f2"];
+    //auto x1 = XmlInfoSrc.m_Dict_Md5_Text["0347f7e68541d577571b2f57b794e4f2"];
+    //auto x2 = XmlInfoTar.m_Dict_Md5_Text["0347f7e68541d577571b2f57b794e4f2"];
 
 
-
-    std::map<Int32, Int32> xUpdate;
-    for (Int32 xSrcLine = 0; xSrcLine < XmlInfo1.m_List_LineText.GetCount(); xSrcLine++)
+    MsList<MergeInfo> xListMergeLines;
+    for (Int32 xTarLine = 0; xTarLine < XmlInfoTar.m_List_LineText.GetCount(); xTarLine++)
     {
-        mstr& xItem = XmlInfo1.m_List_LineText[xSrcLine];
-        Int32 xTarLine = XmlInfo2.m_List_LineText.IndexOf(xItem);
-        xUpdate[xSrcLine] = xTarLine;
-    }
-
-    std::map<Int32, mstr> xTempSet;
-    for (auto xUpdateLine : xUpdate)
-    {
-        xTempSet[xUpdateLine.second] = XmlInfo1.m_List_LineText[xUpdateLine.first];
-    }
-
-    Int32 xMax = (--xTempSet.end())->first;
-    xMax = _Max(XmlInfo2.m_List_LineText.GetCount(), xMax);
-    FILE* xFile = fopen("d:\\out.txt", "w+");
-    for (Int32 i = 0; i < xMax; i++)
-    {
-        if (xTempSet.find(i) != xTempSet.end())
+        MergeInfo xMergeInfo;
+        mstr& xTarItem = XmlInfoTar.m_List_LineText[xTarLine];
+        Int32 xSrcLine = XmlInfoSrc.m_List_LineText.IndexOf(xTarItem);
+        if (xSrcLine >= 0)
         {
-            fprintf(xFile, "%s\n", xTempSet[i].c_str());
+            xMergeInfo.m_Type = MergeType::MT_MOV;
+            xMergeInfo.MergeData.m_SrcLine = xSrcLine;
+            xListMergeLines.Add(xMergeInfo);
         }
         else
         {
-            fprintf(xFile, "%s\n", XmlInfo2.m_List_LineText[i].c_str());
+            mstr& xTarName = XmlInfoTar.m_List_LineName[xTarLine];
+            Int32 xSrcNameLine = XmlInfoSrc.m_List_LineName.IndexOf(xTarName);
+            if (xSrcNameLine >= 0)
+            {
+                xMergeInfo.m_Type = MergeType::MT_CHG;
+                xMergeInfo.MergeData.m_SrcLineNewValue = std::pair<Int32, mstr>(xSrcNameLine, XmlInfoTar.m_List_LineValue[xTarLine]);
+                xListMergeLines.Add(xMergeInfo);
+            }
+            else
+            {
+                xMergeInfo.m_Type = MergeType::MT_ADD;
+                xMergeInfo.MergeData.m_AddValue = XmlInfoTar.m_List_LineText[xTarLine];
+                xListMergeLines.Add(xMergeInfo);
+            }
+        }
+    }
+
+
+
+    FILE* xFile = fopen("d:\\up.txt", "w+");
+    for (Int32 i = 0; i < xListMergeLines.GetCount(); i++)
+    {
+        switch (xListMergeLines[i].m_Type)
+        {
+            // 增加
+            case MergeType::MT_ADD:
+            {
+                fprintf(xFile, "A\t%s\n", xListMergeLines[i].MergeData.m_AddValue.c_str());
+            }break;
+
+            // 删除
+            case MergeType::MT_DEL:
+            {
+                fprintf(xFile, "D\n");
+            }break;
+
+            // 修改
+            case MergeType::MT_CHG:
+            {
+                fprintf(xFile, "C%d\t%s\n", xListMergeLines[i].MergeData.m_SrcLineNewValue.first, xListMergeLines[i].MergeData.m_SrcLineNewValue.second.c_str());
+            }break;
+
+            // 移动
+            case MergeType::MT_MOV:
+            {
+                if (i == xListMergeLines[i].MergeData.m_SrcLine)
+                {
+                    fprintf(xFile, "-\n");
+                }
+                else
+                {
+                    fprintf(xFile, "M%d\n", xListMergeLines[i].MergeData.m_SrcLine);
+                }
+            }break;
         }
     }
     fclose(xFile);
-
-
-
-
-
-
 
 
 
 
     xFile = fopen("d:\\1.txt", "w+");
-    for (Int32 i = 0; i < XmlInfo1.m_List_LineText.GetCount(); i++)
+    for (Int32 i = 0; i < XmlInfoSrc.m_List_LineText.GetCount(); i++)
     {
-        fprintf(xFile, "%s\n", XmlInfo1.m_List_LineText[i].c_str());
+        fprintf(xFile, "%s\n", XmlInfoSrc.m_List_LineText[i].c_str());
     }
     fclose(xFile);
 
 
     xFile = fopen("d:\\2.txt", "w+");
-    for (Int32 i = 0; i < XmlInfo2.m_List_LineText.GetCount(); i++)
+    for (Int32 i = 0; i < XmlInfoTar.m_List_LineText.GetCount(); i++)
     {
-        fprintf(xFile, "%s\n", XmlInfo2.m_List_LineText[i].c_str());
+        fprintf(xFile, "%s\n", XmlInfoTar.m_List_LineText[i].c_str());
     }
     fclose(xFile);
-    system("Pause");
 
 
 
-    //std::map<Int32, mstr> xTempSet;
-    //for (Int32 i = 0; i < XmlInfo1.m_List_LineMd5.GetCount(); i++)
-    //{
-    //    auto xItem = XmlInfo1.m_Dict_Md5_Text[XmlInfo1.m_List_LineMd5[i]];
-    //    for (Int32 xLine : xItem.m_Container)
-    //    {
-    //        xTempSet[xLine] = XmlInfo1.m_List_LineText[xLine - 1];
-    //    }
-    //}
-
-
-
-    //Int32 xMax = ((--xTempSet.end())->first) - 1;
-    //for (Int32 i = 0; i < xMax; i++)
-    //{
-    //    if (xTempSet.find(i) != xTempSet.end())
-    //    {
-    //        fprintf(XmlInfo1.m_OutFileName, "%s\n", xTempSet[i].c_str());
-    //    }
-    //    else
-    //    {
-    //        fprintf(XmlInfo1.m_OutFileName, "\n");
-    //    }
-    //}
-
-
-
-
-    //xTempSet.clear();
-    //for (auto xItem : XmlInfo2.m_Dict_Md5_Text)
-    //{
-    //    for (Int32 xLine : xItem.second.m_Container)
-    //    {
-    //        xTempSet[xLine] = XmlInfo2.m_List_LineText[xLine - 1];
-    //    }
-    //}
-
-    //xMax = ((--xTempSet.end())->first) - 1;
-    //for (Int32 i = 0; i < xMax; i++)
-    //{
-    //    if (xTempSet.find(i) != xTempSet.end())
-    //    {
-    //        fprintf(XmlInfo2.m_OutFileName, "%s\n", xTempSet[i].c_str());
-    //    }
-    //    else
-    //    {
-    //        fprintf(XmlInfo2.m_OutFileName, "\n");
-    //    }
-    //}
-
-
-    fclose(XmlInfo1.m_OutFileName);
-    fclose(XmlInfo2.m_OutFileName);
-
-
+    fclose(XmlInfoSrc.m_OutFileName);
+    fclose(XmlInfoTar.m_OutFileName);
 
     system("Pause");
     return 0;

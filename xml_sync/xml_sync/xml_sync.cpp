@@ -37,22 +37,22 @@ struct XmlRecordInfo
     MsList<mstr> m_List_LineValue;
 };
 
-//mstr CreateHierarchyBlank(Int32 xHierarchy)
+//mstr CreateHierarchyBlank(Int32 xNodeDepth)
 //{
 //    mstr xTemp = "";
-//    for (Int32 i = 0; i < xHierarchy; i++) { xTemp += ONCE_BLACK; }
+//    for (Int32 i = 0; i < xNodeDepth; i++) { xTemp += ONCE_BLACK; }
 //    return xTemp;
 //}
 
-void ReadNodeAttr(XmlRecordInfo& xXmlVector, TiXmlElement* xTiXmlElement, mstr xFullPathKV, Int32 xHierarchy)
+void ReadNodeAttr(XmlRecordInfo& xXmlVector, TiXmlElement* xTiXmlElement, mstr xFullPathKV, Int32 xNodeDepth, Int32& xNodeNum)
 {
     if (xTiXmlElement)
     {
-        //mstr xHierarchyBlank = CreateHierarchyBlank(xHierarchy);
+        //mstr xHierarchyBlank = CreateHierarchyBlank(xNodeDepth);
         TiXmlAttribute* xTiXmlAttribute = xTiXmlElement->FirstAttribute();
         while (xTiXmlAttribute)
         {
-            mstr xTempNodeFullPathKV = Format("%03d:%s", xHierarchy, xFullPathKV.c_str());
+            mstr xTempNodeFullPathKV = Format("%03d:%04d:%s", xNodeDepth, xNodeNum, xFullPathKV.c_str());
             xTempNodeFullPathKV += ">";
             xTempNodeFullPathKV += xTiXmlAttribute->Name();
             xXmlVector.m_List_LineName.Add(xTempNodeFullPathKV);
@@ -65,21 +65,22 @@ void ReadNodeAttr(XmlRecordInfo& xXmlVector, TiXmlElement* xTiXmlElement, mstr x
     }
 }
 
-void ReadNode(XmlRecordInfo& xXmlVector, TiXmlElement* xTiXmlElement, mstr xFullPathKV, Int32 xHierarchy)
+void ReadNode(XmlRecordInfo& xXmlVector, TiXmlElement* xTiXmlElement, mstr xFullPathKV, Int32 xNodeDepth, Int32& xNodeNum)
 {
-    //mstr xHierarchyBlank = CreateHierarchyBlank(xHierarchy);
+    xNodeNum++;
+    //mstr xHierarchyBlank = CreateHierarchyBlank(xNodeDepth);
     if (xTiXmlElement)
     {
         mstr xTempNodeFullPathKV = xFullPathKV;
-        if (xHierarchy != 0) { xTempNodeFullPathKV += ">"; }
+        if (xNodeDepth != 0) { xTempNodeFullPathKV += ">"; }
         xTempNodeFullPathKV += xTiXmlElement->Value();
 
-        ReadNodeAttr(xXmlVector, xTiXmlElement, xTempNodeFullPathKV, xHierarchy + 1);
+        ReadNodeAttr(xXmlVector, xTiXmlElement, xTempNodeFullPathKV, xNodeDepth + 1, xNodeNum);
 
         TiXmlElement* xTiSubXmlElement = xTiXmlElement->FirstChildElement();
         while (xTiSubXmlElement)
         {
-            ReadNode(xXmlVector, xTiSubXmlElement, xTempNodeFullPathKV, xHierarchy + 1);
+            ReadNode(xXmlVector, xTiSubXmlElement, xTempNodeFullPathKV, xNodeDepth + 1, xNodeNum);
             xTiSubXmlElement = xTiSubXmlElement->NextSiblingElement();
         }
     }
@@ -99,10 +100,11 @@ int main()
         TiXmlElement* xTiXmlElement = xDocument.FirstChildElement();
         if (xTiXmlElement)
         {
+            Int32 xNodeNum = 0;
             do
             {
                 mstr xFullPathKV;
-                ReadNode(XmlInfoSrc, xTiXmlElement, xFullPathKV, 0);
+                ReadNode(XmlInfoSrc, xTiXmlElement, xFullPathKV, 0, xNodeNum);
                 xTiXmlElement = xTiXmlElement->NextSiblingElement();
             } while (xTiXmlElement);
         }
@@ -123,10 +125,11 @@ int main()
         TiXmlElement* xTiXmlElement = xDocument.FirstChildElement();
         if (xTiXmlElement)
         {
+            Int32 xNodeNum = 0;
             do
             {
                 mstr xFullPathKV;
-                ReadNode(XmlInfoTar, xTiXmlElement, xFullPathKV, 0);
+                ReadNode(XmlInfoTar, xTiXmlElement, xFullPathKV, 0, xNodeNum);
                 xTiXmlElement = xTiXmlElement->NextSiblingElement();
             } while (xTiXmlElement);
         }

@@ -6,6 +6,8 @@
 #include "tinyxml.h"
 #include "MsList.hpp"
 
+#define _Max(a,b)    (((a) > (b)) ? (a) : (b))
+
 //#define ONCE_BLACK "    "
 #define ONCE_BLACK ""
 //
@@ -184,14 +186,14 @@ int main()
         xUpdate[xSrcLine] = xTarLine;
     }
 
-
     std::map<Int32, mstr> xTempSet;
     for (auto xUpdateLine : xUpdate)
     {
         xTempSet[xUpdateLine.second] = XmlInfo1.m_List_LineText[xUpdateLine.first];
     }
 
-    Int32 xMax = ((--xTempSet.end())->first) - 1;
+    Int32 xMax = (--xTempSet.end())->first;
+    xMax = _Max(XmlInfo2.m_List_LineText.GetCount(), xMax);
     FILE* xFile = fopen("d:\\out.txt", "w+");
     for (Int32 i = 0; i < xMax; i++)
     {
@@ -201,10 +203,18 @@ int main()
         }
         else
         {
-            fprintf(xFile, "\n");
+            fprintf(xFile, "%s\n", XmlInfo2.m_List_LineText[i].c_str());
         }
     }
     fclose(xFile);
+
+
+
+
+
+
+
+
 
 
     xFile = fopen("d:\\1.txt", "w+");

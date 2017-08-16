@@ -6,5 +6,6 @@
   <ItemGroup>
     <ClInclude Include="tinyxml.h" />
     <ClInclude Include="tinystr.h" />
+    <ClInclude Include="MsList.hpp" />
   </ItemGroup>
 </Project>

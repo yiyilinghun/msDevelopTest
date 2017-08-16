@@ -6,7 +6,6 @@
         <DetailData DetailID="19" TaskType="1300" TaskValue="" RewardID="" />
         <SumActivityData ActivityID="1" Condition="TotalRecharge1" Param="0" ActivityImage="asdf" ActivityNote="累计充值1" ActivityTitle="LeiChongZi_ChongZhi1" Note="累计充值达多少钻1" Weight="30" StartTime="15020411" FinishTime="1502280411" ClearTime="2502281" During="3">
             <DetailData DetailID="11" TaskType="1300" TaskValue="" RewardID="" />
-            <DetailData DetailID="12" TaskType="1300" TaskValue="" RewardID="" />
             <DetailData DetailID="18" TaskType="1300" TaskValue="" RewardID="" />
             <DetailData DetailID="19" TaskType="1300" TaskValue="" RewardID="" />
             <SumActivityData ActivityID="1" Condition="TotalRecharge1" Param="0" ActivityImage="asdf" ActivityNote="累计充值1" ActivityTitle="LeiChongZi_ChongZhi1" Note="累计充值达多少钻1" Weight="30" StartTime="15020411" FinishTime="1502280411" ClearTime="2502211" During="3">

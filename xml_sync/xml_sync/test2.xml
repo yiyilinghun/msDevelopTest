@@ -7,29 +7,31 @@
         <DetailData DetailID="12" TaskType="1300" TaskValue="" RewardID="" />
         <DetailData DetailID="19" TaskType="1300" TaskValue="" RewardID="" />
         <SumActivityData ActivityID="1" Condition="TotalRecharge1" Param="0" ActivityImage="asdf" ActivityNote="累计充值1" ActivityTitle="LeiChongZi_ChongZhi1" Note="累计充值达多少钻1" Weight="30" StartTime="15020411" FinishTime="1502280411" ClearTime="2502281" During="3">
-            <DetailData DetailID="12" TaskType="1300" TaskValue="" RewardID="" />
+            <DetailData Param="0" DetailID="12" TaskType="1300" TaskValue="" RewardID="" />
             <DetailData DetailID="18" TaskType="1300" TaskValue="" RewardID="" />
             <DetailData DetailID="19" TaskType="1300" TaskValue="" RewardID="" />
             <SumActivityData ActivityID="1" Condition="TotalRecharge1" Param="0" ActivityImage="asdf" ActivityNote="累计充值1" ActivityTitle="LeiChongZi_ChongZhi1" Note="累计充值达多少钻1" Weight="30" StartTime="15020411" FinishTime="1502280411" ClearTime="2502211" During="3">
-                <DetailData DetailID="12" TaskType="1300" TaskValue="" RewardID="" />
-                <DetailData DetailID="13" TaskType="1300" TaskValue="" RewardID="" />
-                <DetailData DetailID="14" TaskType="1300" TaskValue="" RewardID="" />
-                <DetailData DetailID="11" TaskType="1300" TaskValue="" RewardID="" Test="TotalRechargea00"/>
-                <DetailData DetailID="12" TaskType="1300" TaskValue="" RewardID="" />
-                <DetailData DetailID="19" TaskType="1300" TaskValue="" RewardID="" />
+                <DetailData DetailID="12" TaskType="1301" TaskValue="" RewardID="" />
+                <DetailData DetailID="13" TaskType="1302" TaskValue="" RewardID="" />
+                <DetailData DetailID="14" TaskType="1303" TaskValue="" RewardID="" />
+                <DetailData DetailID="11" TaskType="1304" TaskValue="" RewardID="" Test="TotalRechargea00"/>
+                <DetailData DetailID="12" TaskType="1305" TaskValue="" RewardID="" />
+                <DetailData DetailID="19" TaskType="1306" TaskValue="" RewardID="" />
+                <DetailDataA DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
             </SumActivityData>
         </SumActivityData>
     </SumActivityData>
 
     <DetailData DetailID="1100" TaskType="200300" TaskValue="" RewardID="" />
     <DetailData DetailID="1200" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailDataA DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
     <DetailData DetailID="1300" TaskType="200300" TaskValue="" RewardID="" />
     <DetailData DetailID="1400" TaskType="200300" TaskValue="" RewardID="" />
     <DetailData DetailID="1500" TaskType="200300" TaskValue="" RewardID="" />
-    <DetailData DetailID="1600" TaskType="200300" TaskValue="" RewardID="" />
     <DetailData DetailID="1700" TaskType="200300" TaskValue="" RewardID="" />
     <DetailData DetailID="1800" TaskType="200300" TaskValue="" RewardID="" />
     <DetailData DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
     <DetailData DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
     <DetailData DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailDataA DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
 </Root>

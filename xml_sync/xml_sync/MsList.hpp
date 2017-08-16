@@ -11,7 +11,7 @@ typedef int         Int32;
 typedef long long   Int64;
 typedef int         Boolean;
 typedef char        Char;
-
+typedef char*       LPSTR;
 
 #include <list>
 
@@ -175,7 +175,28 @@ public:
 };
 
 
-
+DINLINE static void StringSplit(LPSTR lpCSrc, Char xSeparator, MsList<mstr>& xParams)
+{
+    mstr xTemp = lpCSrc; LPSTR lpSrc = (LPSTR)xTemp.c_str();
+    LPSTR lpParam = (LPSTR)lpSrc;
+    LPSTR lpTemp = strchr(lpParam, xSeparator);
+    while (lpTemp)
+    {
+        Char x = *lpTemp;
+        (*lpTemp) = '\0';
+        if ((*lpParam) != '\0')
+        {
+            xParams.Add(lpParam);
+        }
+        (*lpTemp) = x;
+        lpParam = lpTemp + 1;
+        lpTemp = strchr(lpParam, xSeparator);
+    }
+    if ((*lpParam) != '\0')
+    {
+        xParams.Add(lpParam);
+    }
+}
 
 
 
@@ -190,3 +211,4 @@ public:
 //private:
 //    google::protobuf::RepeatedField<TValue>* m_lpRepeatedValue;
 //};
+

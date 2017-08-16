@@ -53,7 +53,7 @@ void ReadNodeAttr(XmlRecordInfo& xXmlVector, TiXmlElement* xTiXmlElement, mstr x
         while (xTiXmlAttribute)
         {
             mstr xTempNodeFullPathKV = xFullPathKV;
-            xTempNodeFullPathKV += "->";
+            xTempNodeFullPathKV += ">";
             xTempNodeFullPathKV += xTiXmlAttribute->Name();
             xXmlVector.m_List_LineName.Add(xTempNodeFullPathKV);
             xTempNodeFullPathKV += "=";
@@ -71,7 +71,7 @@ void ReadNode(XmlRecordInfo& xXmlVector, TiXmlElement* xTiXmlElement, mstr xFull
     if (xTiXmlElement)
     {
         mstr xTempNodeFullPathKV = xFullPathKV;
-        if (xHierarchy != 0) { xTempNodeFullPathKV += "->"; }
+        if (xHierarchy != 0) { xTempNodeFullPathKV += ">"; }
         xTempNodeFullPathKV += xTiXmlElement->Value();
 
         ReadNodeAttr(xXmlVector, xTiXmlElement, xTempNodeFullPathKV, xHierarchy + 1);
@@ -317,6 +317,51 @@ int main()
 
     fclose(XmlInfoSrc.m_OutFileName);
     fclose(XmlInfoTar.m_OutFileName);
+
+
+
+
+
+
+
+
+    //XmlRecordInfo XmlInfoOut;
+    //XmlInfoTar.m_OutFileName = fopen("d:/out.txt", "r+");
+    //{
+    //    TiXmlDocument xDocument;
+    //    FILE* xOutFile = fopen("d:\\out.txt", "w+");
+    //    while (!xRead.eof())
+    //    {
+    //        Char szBuff[2048];
+    //        xRead.getline(szBuff, 2048);
+    //        if (strlen(szBuff) == 0)
+    //        {
+    //        }
+    //    }
+    //    //if (!xDocument.LoadFile("./test2.xml"))
+    //    //{
+    //    //    printf("´ò¿ªxmlÊ§°Ü");
+    //    //    return 1;
+    //    //}
+
+    //    TiXmlNode xTiXmlNode;
+    //    xDocument.InsertEndChild()
+    //    TiXmlElement* xTiXmlElement = xDocument.FirstChildElement();
+    //    if (xTiXmlElement)
+    //    {
+    //        do
+    //        {
+    //            mstr xFullPathKV;
+    //            ReadNode(XmlInfoTar, xTiXmlElement, xFullPathKV, 0);
+    //            xTiXmlElement = xTiXmlElement->NextSiblingElement();
+    //        } while (xTiXmlElement);
+    //    }
+    //}
+
+
+
+
+
 
     system("Pause");
     return 0;

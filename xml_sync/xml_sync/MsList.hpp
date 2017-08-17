@@ -21,49 +21,10 @@ class MsList
 {
 public:
     MsList() { }
-    //MsList(google::protobuf::RepeatedField<TValue>* xRepeatedValue) { this->LoadFromProto(xRepeatedValue); m_It = m_Container.begin(); }
-    //MsList(google::protobuf::RepeatedPtrField<TValue>* xRepeatedValue) { this->LoadFromProto(xRepeatedValue); m_It = m_Container.begin(); }
     MsList(std::list<TValue>& xList) { m_Container = xList; m_It = m_Container.begin(); }
     MsList(const MsList& xMsList) { m_Container = xMsList.m_Container; m_It = m_Container.begin(); }
     void operator=(MsList& xMsList) { m_Container = xMsList.m_Container; m_It = m_Container.begin(); }
     void operator=(std::list<TValue>& xList) { m_Container = xList; m_It = m_Container.begin(); }
-
-    //DINLINE void SaveToProto(google::protobuf::RepeatedPtrField<TValue>* xRepeatedValue)
-    //{
-    //    xRepeatedValue->Clear();
-    //    for (auto it = m_Container.begin(); it != m_Container.end(); ++it)
-    //    {
-    //        xRepeatedValue->Add()->CopyFrom(*it);
-    //    }
-    //}
-
-    //DINLINE void SaveToProto(google::protobuf::RepeatedField<TValue>* xRepeatedValue)
-    //{
-    //    xRepeatedValue->Clear();
-    //    for (auto it = m_Container.begin(); it != m_Container.end(); ++it)
-    //    {
-    //        xRepeatedValue->Add(*it);
-    //    }
-    //}
-
-    //DINLINE void LoadFromProto(google::protobuf::RepeatedPtrField<TValue>* xRepeatedValue)
-    //{
-    //    m_Container.clear();
-    //    for (int i = 0; i < xRepeatedValue->size(); i++)
-    //    {
-    //        m_Container.push_back(xRepeatedValue->Get(i));
-    //    }
-    //}
-
-    //DINLINE void LoadFromProto(google::protobuf::RepeatedField<TValue>* xRepeatedValue)
-    //{
-    //    m_Container.clear();
-    //    for (int i = 0; i < xRepeatedValue->size(); i++)
-    //    {
-    //        m_Container.push_back(xRepeatedValue->Get(i));
-    //    }
-    //}
-
 
     DINLINE void Sort(bool is_desc) { if (is_desc) { m_Container.sort(std::greater<TValue>()); } else { m_Container.sort(); } }
 
@@ -218,16 +179,3 @@ DINLINE static mstr Format(LPSTR xFormat, ...)
     va_end(ap);
     return szBaseFormat;
 }
-
-
-//template<typename TValue>
-//class AutoProtoList : public MsList<TValue>
-//{
-//public:
-//    AutoProtoList(google::protobuf::RepeatedField<TValue>* xRepeatedValue) :MsList<TValue>(xRepeatedValue), m_lpRepeatedValue(xRepeatedValue) { ; }
-//    AutoProtoList(google::protobuf::RepeatedPtrField<TValue>* xRepeatedValue) :MsList<TValue>(xRepeatedValue), m_lpRepeatedValue(xRepeatedValue) { ; }
-//    ~AutoProtoList() { this->SaveToProto(m_lpRepeatedValue); }
-//private:
-//    google::protobuf::RepeatedField<TValue>* m_lpRepeatedValue;
-//};
-

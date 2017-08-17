@@ -10,3 +10,5 @@ xml_sync/xml_sync/Debug/
 *.idb
 *.pdb
 *.opensdf
+/xml_sync/xml_sync/Release
+/xml_sync/Release

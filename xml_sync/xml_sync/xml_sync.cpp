@@ -35,6 +35,7 @@ struct XmlRecordInfo
     MsList<mstr> m_List_LineText;
     MsList<mstr> m_List_LineName;
     MsList<mstr> m_List_LineValue;
+    MsList<mstr> m_List_Node_Depth_Num;
 };
 
 //mstr CreateHierarchyBlank(Int32 xNodeDepth)
@@ -44,7 +45,7 @@ struct XmlRecordInfo
 //    return xTemp;
 //}
 
-void ReadNodeAttr(XmlRecordInfo& xXmlVector, TiXmlElement* xTiXmlElement, mstr xFullPathKV, Int32 xNodeDepth, Int32& xNodeNum)
+void ReadNodeAttr(XmlRecordInfo& xXmlVector, TiXmlElement* xTiXmlElement, mstr xFullPathKV, Int32 xNodeDepth, Int32& xNodeNum, Int32 xParentNodeIndex)
 {
     if (xTiXmlElement)
     {
@@ -52,7 +53,10 @@ void ReadNodeAttr(XmlRecordInfo& xXmlVector, TiXmlElement* xTiXmlElement, mstr x
         TiXmlAttribute* xTiXmlAttribute = xTiXmlElement->FirstAttribute();
         while (xTiXmlAttribute)
         {
-            mstr xTempNodeFullPathKV = Format("%03d:%04d:%s", xNodeDepth, xNodeNum, xFullPathKV.c_str());
+            //xXmlVector.m_List_Node_Depth_Num.Add(Format("%04d:%04d:%04d", xNodeDepth, xNodeNum, xParentNodeIndex));
+            xXmlVector.m_List_Node_Depth_Num.Add(Format("%04d:%04d", xNodeDepth, xNodeNum));
+            //xXmlVector.m_List_Node_Depth_Num.Add(Format("%04d", xNodeDepth));
+            mstr xTempNodeFullPathKV = xFullPathKV;
             xTempNodeFullPathKV += ">";
             xTempNodeFullPathKV += xTiXmlAttribute->Name();
             xXmlVector.m_List_LineName.Add(xTempNodeFullPathKV);
@@ -65,7 +69,7 @@ void ReadNodeAttr(XmlRecordInfo& xXmlVector, TiXmlElement* xTiXmlElement, mstr x
     }
 }
 
-void ReadNode(XmlRecordInfo& xXmlVector, TiXmlElement* xTiXmlElement, mstr xFullPathKV, Int32 xNodeDepth, Int32& xNodeNum)
+void ReadNode(XmlRecordInfo& xXmlVector, TiXmlElement* xTiXmlElement, mstr xFullPathKV, Int32 xNodeDepth, Int32& xNodeNum, Int32 xParentNodeIndex)
 {
     xNodeNum++;
     //mstr xHierarchyBlank = CreateHierarchyBlank(xNodeDepth);
@@ -75,12 +79,12 @@ void ReadNode(XmlRecordInfo& xXmlVector, TiXmlElement* xTiXmlElement, mstr xFull
         if (xNodeDepth != 0) { xTempNodeFullPathKV += ">"; }
         xTempNodeFullPathKV += xTiXmlElement->Value();
 
-        ReadNodeAttr(xXmlVector, xTiXmlElement, xTempNodeFullPathKV, xNodeDepth + 1, xNodeNum);
+        ReadNodeAttr(xXmlVector, xTiXmlElement, xTempNodeFullPathKV, xNodeDepth + 1, xNodeNum, xNodeNum - 1);
 
         TiXmlElement* xTiSubXmlElement = xTiXmlElement->FirstChildElement();
         while (xTiSubXmlElement)
         {
-            ReadNode(xXmlVector, xTiSubXmlElement, xTempNodeFullPathKV, xNodeDepth + 1, xNodeNum);
+            ReadNode(xXmlVector, xTiSubXmlElement, xTempNodeFullPathKV, xNodeDepth + 1, xNodeNum, xNodeNum - 1);
             xTiSubXmlElement = xTiSubXmlElement->NextSiblingElement();
         }
     }
@@ -104,7 +108,7 @@ int main()
             do
             {
                 mstr xFullPathKV;
-                ReadNode(XmlInfoSrc, xTiXmlElement, xFullPathKV, 0, xNodeNum);
+                ReadNode(XmlInfoSrc, xTiXmlElement, xFullPathKV, 0, xNodeNum, 0);
                 xTiXmlElement = xTiXmlElement->NextSiblingElement();
             } while (xTiXmlElement);
         }
@@ -129,7 +133,7 @@ int main()
             do
             {
                 mstr xFullPathKV;
-                ReadNode(XmlInfoTar, xTiXmlElement, xFullPathKV, 0, xNodeNum);
+                ReadNode(XmlInfoTar, xTiXmlElement, xFullPathKV, 0, xNodeNum, 0);
                 xTiXmlElement = xTiXmlElement->NextSiblingElement();
             } while (xTiXmlElement);
         }
@@ -233,6 +237,13 @@ int main()
     }
     fclose(xFile);
 
+
+    FILE* xNodeFile = fopen("d:\\node.txt", "w+");
+    for (mstr xItem : XmlInfoTar.m_List_Node_Depth_Num.m_Container)
+    {
+        fprintf(xNodeFile, "%s\n", xItem.c_str());
+    }
+    fclose(xNodeFile);
 
 
     xListMergeLines.Clear();

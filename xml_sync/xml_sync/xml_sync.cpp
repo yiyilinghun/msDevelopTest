@@ -150,7 +150,15 @@ int main()
     for (Int32 xTarLine = 0; xTarLine < XmlInfoTar.m_List_LineText.GetCount(); xTarLine++)
     {
         mstr& xTarItem = XmlInfoTar.m_List_LineText[xTarLine];
-        Int32 xSrcLine = XmlInfoSrc.m_List_LineText.IndexOf(xTarItem);
+        Int32 xSrcLine = -1;
+        if (XmlInfoSrc.m_List_LineText.GetCount() > xTarLine && XmlInfoSrc.m_List_LineText[xTarLine] == xTarItem)
+        {
+            xSrcLine = xTarLine;
+        }
+        else
+        {
+            xSrcLine = XmlInfoSrc.m_List_LineText.IndexOf(xTarItem);
+        }
         if (xSrcLine >= 0)
         {
             if (xTarLine == xSrcLine)

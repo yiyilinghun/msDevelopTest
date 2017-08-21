@@ -50,13 +50,15 @@ namespace UpdateXml
 
                 ReadNodeAttr(xXmlRecordInfo, xXmlNode, xTempNodeFullPathKV, xNodeDepth + 1, ref xNodeNum, xNodeNum - 1);
 
-                XmlElement xSubXmlElement = (XmlElement)xXmlNode.FirstChild;
+                XmlNode xSubXmlElement = xXmlNode.FirstChild;
                 //TiXmlElement* xTiSubXmlElement = xTiXmlElement->FirstChildElement();
                 while (xSubXmlElement != null)
                 {
-                    ReadNode(xXmlRecordInfo, xSubXmlElement, xTempNodeFullPathKV, xNodeDepth + 1, ref xNodeNum, xNodeNum - 1);
-                    xSubXmlElement = (XmlElement)xSubXmlElement.NextSibling;
-                    //xTiSubXmlElement = xTiSubXmlElement->NextSiblingElement();
+                    if (xSubXmlElement.NodeType == XmlNodeType.Element)
+                    {
+                        ReadNode(xXmlRecordInfo, (XmlElement)xSubXmlElement, xTempNodeFullPathKV, xNodeDepth + 1, ref xNodeNum, xNodeNum - 1);
+                    }
+                    xSubXmlElement = xSubXmlElement.NextSibling;
                 }
             }
         }
@@ -72,7 +74,7 @@ namespace UpdateXml
         {
             XmlRecordInfo xXmlRecordInfo = new XmlRecordInfo();
             XmlNode xXmlNode = xXmlDocument.FirstChild;
-            if (xXmlNode.NodeType != XmlNodeType.Element) { xXmlNode = xXmlNode.NextSibling; }
+            while (xXmlNode.NodeType != XmlNodeType.Element) { xXmlNode = xXmlNode.NextSibling; }
             XmlElement xXmlElement = (XmlElement)xXmlNode;
             if (xXmlElement != null)
             {

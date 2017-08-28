@@ -12,3 +12,5 @@ xml_sync/xml_sync/Debug/
 *.opensdf
 /xml_sync/xml_sync/Release
 /xml_sync/Release
+/rpc_demo/server
+/rpc_demo/client

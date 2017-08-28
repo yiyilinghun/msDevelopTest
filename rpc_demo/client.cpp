@@ -6,7 +6,7 @@
 
 int local_intAdd(int x, int y)
 {
-    printf("%d + %d = %d\n", x, y, x + y);
+    //printf("%d + %d = %d\n", x, y, x + y);
     return x + y;
 }
 
@@ -54,18 +54,17 @@ int main(int argc, char * argv[])
     xBegin = Now();
     for (int i = 0; i < 10000; i++)
     {
-        RpcTryExcept;
-        {
-
-            int x = intAdd(10, 20);
-            //Hello((unsigned char*)argv[0]);
-            //Shutdown();
-        }
-        RpcExcept(1)
-        {
-            printf("RPC Exception %d/n", RpcExceptionCode());
-        }
-        RpcEndExcept;
+        //RpcTryExcept;
+        //{
+        int x = intAdd(10, 20);
+        //Hello((unsigned char*)argv[0]);
+        //Shutdown();
+    //}
+    //RpcExcept(1)
+    //{
+    //    printf("RPC Exception %d/n", RpcExceptionCode());
+    //}
+    //RpcEndExcept;
     }
     xEnd = Now();
     printf("%lld\n", xEnd - xBegin);
@@ -75,6 +74,7 @@ int main(int argc, char * argv[])
     // ÊÍ·Å×ÊÔ´
     RpcStringFree(&pszStringBinding);
     RpcBindingFree(&HelloWorld_Binding);
+    system("pause");
     return 0;
 }
 

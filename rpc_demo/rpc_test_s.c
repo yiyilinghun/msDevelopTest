@@ -3,11 +3,11 @@
 /* this ALWAYS GENERATED file contains the RPC server stubs */
 
 
- /* File created by MIDL compiler version 8.01.0622 */
+ /* File created by MIDL compiler version 8.01.0620 */
 /* at Tue Jan 19 11:14:07 2038
  */
 /* Compiler settings for rpc_test.idl:
-    Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 8.01.0622 
+    Oicf, W1, Zp8, env=Win64 (32b run), target_arch=AMD64 8.01.0620 
     protocol : dce , ms_ext, c_ext, robust
     error checks: allocation ref bounds_check enum stub_data 
     VC __declspec() decoration level: 
@@ -16,7 +16,7 @@
 */
 /* @@MIDL_FILE_HEADING(  ) */
 
-#if !defined(_M_IA64) && !defined(_M_AMD64) && !defined(_ARM_)
+#if defined(_M_AMD64)
 
 
 #pragma warning( disable: 4049 )  /* more than 64k source lines */
@@ -35,7 +35,7 @@
 #include "rpc_test.h"
 
 #define TYPE_FORMAT_STRING_SIZE   7                                 
-#define PROC_FORMAT_STRING_SIZE   97                                
+#define PROC_FORMAT_STRING_SIZE   103                               
 #define EXPR_FORMAT_STRING_SIZE   1                                 
 #define TRANSMIT_AS_TABLE_SIZE    0            
 #define WIRE_MARSHAL_TABLE_SIZE   0            
@@ -91,7 +91,7 @@ RPC_IF_HANDLE HelloWorld_v1_0_s_ifspec = (RPC_IF_HANDLE)& HelloWorld___RpcServer
 extern const MIDL_STUB_DESC HelloWorld_StubDesc;
 
 
-#if !defined(__RPC_WIN32__)
+#if !defined(__RPC_WIN64__)
 #error  Invalid build platform for this stub.
 #endif
 
@@ -114,77 +114,80 @@ static const rpc_test_MIDL_PROC_FORMAT_STRING rpc_test__MIDL_ProcFormatString =
 			0x48,		/* Old Flags:  */
 /*  2 */	NdrFcLong( 0x0 ),	/* 0 */
 /*  6 */	NdrFcShort( 0x0 ),	/* 0 */
-/*  8 */	NdrFcShort( 0xc ),	/* x86 Stack size/offset = 12 */
+/*  8 */	NdrFcShort( 0x18 ),	/* x86 Stack size/offset = 24 */
 /* 10 */	NdrFcShort( 0x10 ),	/* 16 */
 /* 12 */	NdrFcShort( 0x8 ),	/* 8 */
 /* 14 */	0x44,		/* Oi2 Flags:  has return, has ext, */
 			0x3,		/* 3 */
-/* 16 */	0x8,		/* 8 */
+/* 16 */	0xa,		/* 10 */
 			0x1,		/* Ext Flags:  new corr desc, */
 /* 18 */	NdrFcShort( 0x0 ),	/* 0 */
 /* 20 */	NdrFcShort( 0x0 ),	/* 0 */
 /* 22 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 24 */	NdrFcShort( 0x0 ),	/* 0 */
 
 	/* Parameter x */
 
-/* 24 */	NdrFcShort( 0x48 ),	/* Flags:  in, base type, */
-/* 26 */	NdrFcShort( 0x0 ),	/* x86 Stack size/offset = 0 */
-/* 28 */	0x8,		/* FC_LONG */
+/* 26 */	NdrFcShort( 0x48 ),	/* Flags:  in, base type, */
+/* 28 */	NdrFcShort( 0x0 ),	/* x86 Stack size/offset = 0 */
+/* 30 */	0x8,		/* FC_LONG */
 			0x0,		/* 0 */
 
 	/* Parameter y */
 
-/* 30 */	NdrFcShort( 0x48 ),	/* Flags:  in, base type, */
-/* 32 */	NdrFcShort( 0x4 ),	/* x86 Stack size/offset = 4 */
-/* 34 */	0x8,		/* FC_LONG */
+/* 32 */	NdrFcShort( 0x48 ),	/* Flags:  in, base type, */
+/* 34 */	NdrFcShort( 0x8 ),	/* x86 Stack size/offset = 8 */
+/* 36 */	0x8,		/* FC_LONG */
 			0x0,		/* 0 */
 
 	/* Return value */
 
-/* 36 */	NdrFcShort( 0x70 ),	/* Flags:  out, return, base type, */
-/* 38 */	NdrFcShort( 0x8 ),	/* x86 Stack size/offset = 8 */
-/* 40 */	0x8,		/* FC_LONG */
+/* 38 */	NdrFcShort( 0x70 ),	/* Flags:  out, return, base type, */
+/* 40 */	NdrFcShort( 0x10 ),	/* x86 Stack size/offset = 16 */
+/* 42 */	0x8,		/* FC_LONG */
 			0x0,		/* 0 */
 
 	/* Procedure Hello */
 
-/* 42 */	0x32,		/* FC_BIND_PRIMITIVE */
+/* 44 */	0x32,		/* FC_BIND_PRIMITIVE */
 			0x48,		/* Old Flags:  */
-/* 44 */	NdrFcLong( 0x0 ),	/* 0 */
-/* 48 */	NdrFcShort( 0x1 ),	/* 1 */
-/* 50 */	NdrFcShort( 0x4 ),	/* x86 Stack size/offset = 4 */
-/* 52 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 46 */	NdrFcLong( 0x0 ),	/* 0 */
+/* 50 */	NdrFcShort( 0x1 ),	/* 1 */
+/* 52 */	NdrFcShort( 0x8 ),	/* x86 Stack size/offset = 8 */
 /* 54 */	NdrFcShort( 0x0 ),	/* 0 */
-/* 56 */	0x42,		/* Oi2 Flags:  clt must size, has ext, */
+/* 56 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 58 */	0x42,		/* Oi2 Flags:  clt must size, has ext, */
 			0x1,		/* 1 */
-/* 58 */	0x8,		/* 8 */
+/* 60 */	0xa,		/* 10 */
 			0x1,		/* Ext Flags:  new corr desc, */
-/* 60 */	NdrFcShort( 0x0 ),	/* 0 */
 /* 62 */	NdrFcShort( 0x0 ),	/* 0 */
 /* 64 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 66 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 68 */	NdrFcShort( 0x0 ),	/* 0 */
 
 	/* Parameter psz */
 
-/* 66 */	NdrFcShort( 0x10b ),	/* Flags:  must size, must free, in, simple ref, */
-/* 68 */	NdrFcShort( 0x0 ),	/* x86 Stack size/offset = 0 */
-/* 70 */	NdrFcShort( 0x4 ),	/* Type Offset=4 */
+/* 70 */	NdrFcShort( 0x10b ),	/* Flags:  must size, must free, in, simple ref, */
+/* 72 */	NdrFcShort( 0x0 ),	/* x86 Stack size/offset = 0 */
+/* 74 */	NdrFcShort( 0x4 ),	/* Type Offset=4 */
 
 	/* Procedure Shutdown */
 
-/* 72 */	0x32,		/* FC_BIND_PRIMITIVE */
+/* 76 */	0x32,		/* FC_BIND_PRIMITIVE */
 			0x48,		/* Old Flags:  */
-/* 74 */	NdrFcLong( 0x0 ),	/* 0 */
-/* 78 */	NdrFcShort( 0x2 ),	/* 2 */
-/* 80 */	NdrFcShort( 0x0 ),	/* x86 Stack size/offset = 0 */
-/* 82 */	NdrFcShort( 0x0 ),	/* 0 */
-/* 84 */	NdrFcShort( 0x0 ),	/* 0 */
-/* 86 */	0x40,		/* Oi2 Flags:  has ext, */
+/* 78 */	NdrFcLong( 0x0 ),	/* 0 */
+/* 82 */	NdrFcShort( 0x2 ),	/* 2 */
+/* 84 */	NdrFcShort( 0x0 ),	/* x86 Stack size/offset = 0 */
+/* 86 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 88 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 90 */	0x40,		/* Oi2 Flags:  has ext, */
 			0x0,		/* 0 */
-/* 88 */	0x8,		/* 8 */
+/* 92 */	0xa,		/* 10 */
 			0x1,		/* Ext Flags:  new corr desc, */
-/* 90 */	NdrFcShort( 0x0 ),	/* 0 */
-/* 92 */	NdrFcShort( 0x0 ),	/* 0 */
 /* 94 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 96 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 98 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 100 */	NdrFcShort( 0x0 ),	/* 0 */
 
 			0x0
         }
@@ -208,8 +211,8 @@ static const rpc_test_MIDL_TYPE_FORMAT_STRING rpc_test__MIDL_TypeFormatString =
 static const unsigned short HelloWorld_FormatStringOffsetTable[] =
     {
     0,
-    42,
-    72
+    44,
+    76
     };
 
 
@@ -227,7 +230,7 @@ static const MIDL_STUB_DESC HelloWorld_StubDesc =
     1, /* -error bounds_check flag */
     0x50002, /* Ndr library version */
     0,
-    0x801026e, /* MIDL Version 8.1.622 */
+    0x801026c, /* MIDL Version 8.1.620 */
     0,
     0,
     0,  /* notify & notify_flag routine table */
@@ -272,5 +275,5 @@ static const MIDL_SERVER_INFO HelloWorld_ServerInfo =
 #endif
 
 
-#endif /* !defined(_M_IA64) && !defined(_M_AMD64) && !defined(_ARM_) */
+#endif /* defined(_M_AMD64)*/
 

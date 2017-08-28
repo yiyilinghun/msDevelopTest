@@ -12,7 +12,7 @@
 
 int intAdd(int x, int y)
 {
-    printf("%d + %d = %d\n", x, y, x + y);
+    //printf("%d + %d = %d\n", x, y, x + y);
     return x + y;
 }
 
@@ -42,11 +42,13 @@ int main(int argc, char * argv[])
     ///正确的写法应该为\\pipe\\{8dd50205-3108-498f-96e8-dbc4ec074cf9}
 
     // 注册接口，HelloWorld_v1_0_s_ifspec 是在MIDL 生成的Hello.h 中定义的
-    RpcServerRegisterIf(HelloWorld_v1_0_s_ifspec, NULL, NULL);
+    //RpcServerRegisterIf(HelloWorld_v1_0_s_ifspec, NULL, NULL);
+    RpcServerRegisterIfEx(HelloWorld_v1_0_s_ifspec, NULL, NULL, RPC_IF_ALLOW_CALLBACKS_WITH_NO_AUTH, RPC_C_LISTEN_MAX_CALLS_DEFAULT, NULL);
 
     // 开始监听，本函数将一直阻塞
-    //RpcServerListen(1, 20, FALSE);
-    RpcServerListen(1, 20, TRUE);
+    RpcServerListen(1, RPC_C_LISTEN_MAX_CALLS_DEFAULT, FALSE);
+
+    //RpcServerListen(1, 20, TRUE);
 
 
     return 0;

@@ -34,7 +34,8 @@ int main(int argc, char * argv[])
     // 第3 个参数NetworkAddr 如果取NULL，那么就是连接本机服务
     // 否则要取////servername 这样的格式，例如你的计算机名为jack，那么就是//jack
     //RpcStringBindingCompose(NULL, (unsigned char*)"ncacn_np", /*(unsigned char*)"////servername"*/ NULL, (unsigned char*)"//pipe//{8dd50205-3108-498f-96e8-dbc4ec074cf9}", NULL, &pszStringBinding);
-    RpcStringBindingCompose(NULL, (unsigned char*)"ncacn_ip_tcp", (unsigned char*)"localhost" /*NULL*/, (unsigned char*)"13521", NULL, &pszStringBinding);
+    RpcStringBindingCompose(NULL, (unsigned char*)"ncacn_ip_tcp", (unsigned char*)"192.168.1.10" /*NULL*/, (unsigned char*)"13521", NULL, &pszStringBinding);
+    //RpcStringBindingCompose(NULL, (unsigned char*)"ncacn_ip_tcp", (unsigned char*)"localhost" /*NULL*/, (unsigned char*)"13521", NULL, &pszStringBinding);
 
     // 绑定接口，这里要和 Hello.acf 的配置一致，那么就是HelloWorld_Binding
     RpcBindingFromStringBinding(pszStringBinding, &HelloWorld_Binding);
@@ -56,7 +57,8 @@ int main(int argc, char * argv[])
     {
         //RpcTryExcept;
         //{
-        int x = intAdd(10, 20);
+        printf("%d\n", intAdd(10, 20));
+        //int x = ;
         //Hello((unsigned char*)argv[0]);
         //Shutdown();
     //}
@@ -74,7 +76,7 @@ int main(int argc, char * argv[])
     // 释放资源
     RpcStringFree(&pszStringBinding);
     RpcBindingFree(&HelloWorld_Binding);
-    system("pause");
+    //system("pause");
     return 0;
 }
 

@@ -12,8 +12,8 @@
 
 int intAdd(int x, int y)
 {
-    //printf("%d + %d = %d\n", x, y, x + y);
-    return x + y;
+    //printf("%d\n", ::GetCurrentThreadId());
+    return ::GetCurrentThreadId();
 }
 
 void Hello(const unsigned char * psz)
@@ -46,7 +46,7 @@ int main(int argc, char * argv[])
     RpcServerRegisterIfEx(HelloWorld_v1_0_s_ifspec, NULL, NULL, RPC_IF_ALLOW_CALLBACKS_WITH_NO_AUTH, RPC_C_LISTEN_MAX_CALLS_DEFAULT, NULL);
 
     // 开始监听，本函数将一直阻塞
-    RpcServerListen(1, RPC_C_LISTEN_MAX_CALLS_DEFAULT, FALSE);
+    RpcServerListen(0, RPC_C_LISTEN_MAX_CALLS_DEFAULT, FALSE);
 
     //RpcServerListen(1, 20, TRUE);
 

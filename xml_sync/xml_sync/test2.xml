@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="gb2312" ?>
+<Root version="1">
+    <DetailData DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
+    <SumActivityData ActivityID="1" During="3">
+        <DetailData DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
+        <DetailData DetailID="11" TaskType="1300" TaskValue="" RewardID="" />
+        <DetailData DetailID="12" TaskType="1300" TaskValue="" RewardID="" />
+        <DetailData DetailID="19" />
+        <DetailData TaskType="1300" />
+        <DetailData TaskValue="" />
+        <DetailData RewardID="" />
+        <SumActivityData ActivityID="1" During="3">
+            <DetailData Param="0" DetailID="12" TaskType="1300" TaskValue="" RewardID="" />
+            <DetailData DetailID="18" TaskType="1300" TaskValue="" RewardID="" />
+            <DetailData DetailID="19" TaskType="1300" TaskValue="" RewardID="" />
+            <SumActivityData ActivityID="1" During="3">
+                <DetailData DetailID="12" TaskType="1301" TaskValue="" RewardID="" />
+                <DetailData DetailID="13" TaskType="1302" TaskValue="" RewardID="" />
+                <DetailData DetailID="14" TaskType="1303" TaskValue="" RewardID="" />
+                <DetailData DetailID="11" TaskType="1304" TaskValue="" RewardID="" Test="TotalRechargea00"/>
+                <DetailData DetailID="12" TaskType="1305" TaskValue="" RewardID="" />
+                <DetailData DetailID="19" TaskType="1306" TaskValue="" RewardID="" />
+                <DetailDataA DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
+            </SumActivityData>
+        </SumActivityData>
+    <DetailData DetailID="1100" TaskType="200300" TaskValue="" RewardID="" />
+    </SumActivityData>
+
+    <DetailData DetailID="1100" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailData DetailID="1200" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailDataA DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailData DetailID="1300" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailData DetailID="1400" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailData DetailID="1500" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailData DetailID="1700" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailData DetailID="1800" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailData DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailData DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailData DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
+    <DetailDataA DetailID="1900" TaskType="200300" TaskValue="" RewardID="" />
+</Root>
